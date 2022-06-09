@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gbstream-dev-dev
+  namespace: monitoring-sys
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gbstream-dev
+    spec:
+      containers:
+      - name: gbstream-dev
+        image: localhost:32000/monitoringdatadataloggingservice:gbstream-dev
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_URLS
+          value: http://*:80
+  selector:
+    matchLabels:
+      app: gbstream-dev
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gbstream-dev
+  namespace: monitoring-sys
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: gbstream-dev

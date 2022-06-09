@@ -1,0 +1,19 @@
+Delete unused replicasets
+kubectl delete $(kubectl get all | grep replicaset.apps | awk '{if ($2 + $3 + $4 == 0) print $1}')
+
+Apply deployment
+kubectl apply -f deploy.yaml
+
+Restart and update deployment
+kubectl rollout restart deployment/deployname
+
+View kubestuff
+kubectl get services                          # List all services in the namespace
+kubectl get pods --all-namespaces             # List all pods in all namespaces
+kubectl get pods -o wide                      # List all pods in the current namespace, with more details
+kubectl get deployment my-dep                 # List a particular deployment
+kubectl get pods                              # List all pods in the namespace
+kubectl get pod my-pod -o yaml                # Get a pod's YAML
+
+Stream from pod:
+kubectl logs -f my-pod
