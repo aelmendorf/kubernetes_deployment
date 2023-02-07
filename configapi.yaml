@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webapp
+  name: configapi
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: webapp
+        app: configapi
     spec:
       containers:
-      - name: webapp
-        image: aelmendorf234/monitoringwebwebapp:stable
+      - name: configapi
+        image: localhost:32000/configapiservice:dev
         imagePullPolicy: Always
         ports:
         - containerPort: 80
@@ -20,15 +20,15 @@ spec:
           value: http://*:80
   selector:
     matchLabels:
-      app: webapp
+      app: configapi
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: webapp
+  name: configapi
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - port: 80
   selector:
-    app: webapp
+    app: configapi

@@ -1,36 +1,41 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gbstream-dev-dev
-  namespace: monitoring-sys
+  name: gbstream
+  namespace: default
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: gbstream-dev
+        app: gbstream
     spec:
       containers:
-      - name: gbstream-dev
-        image: localhost:32000/monitoringdatadataloggingservice:gbstream-dev
+      - name: gbstream
+        image: localhost:32000/monitoringdatadataloggingservice:dev
         imagePullPolicy: Always
         ports:
         - containerPort: 80
         env:
         - name: ASPNETCORE_URLS
           value: http://*:80
+        - name: DEVICEID
+          value: gasbay
+        - name: SERVICE_TYPE
+          value: MonitorBox
+      nodeSelector:
+        nodes: node02
   selector:
     matchLabels:
-      app: gbstream-dev
+      app: gbstream
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: gbstream-dev
-  namespace: monitoring-sys
+  name: gbstream
 spec:
   type: ClusterIP
   ports:
   - port: 80
   selector:
-    app: gbstream-dev
+    app: gbstream

@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: webapp
-        image: aelmendorf234/monitoringwebwebapp:stable
+        image: localhost:32000/monitoringwebwebappv2:stable
         imagePullPolicy: Always
         ports:
         - containerPort: 80

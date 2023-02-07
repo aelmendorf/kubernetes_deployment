@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webapp
+  name: webappdev
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: webapp
+        app: webappdev
     spec:
       containers:
-      - name: webapp
-        image: aelmendorf234/monitoringwebwebapp:stable
+      - name: webappdev
+        image: localhost:32000/monitoringwebwebappv2:dev
         imagePullPolicy: Always
         ports:
         - containerPort: 80
@@ -20,15 +20,15 @@ spec:
           value: http://*:80
   selector:
     matchLabels:
-      app: webapp
+      app: webappdev
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: webapp
+  name: webappdev
 spec:
   type: LoadBalancer
   ports:
   - port: 80
   selector:
-    app: webapp
+    app: webappdev

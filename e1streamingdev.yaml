@@ -1,34 +1,38 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webapp
+  name: e1streamdev
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: webapp
+        app: e1streamdev
     spec:
       containers:
-      - name: webapp
-        image: aelmendorf234/monitoringwebwebapp:stable
+      - name: e1streamdev
+        image: localhost:32000/monitoringdatadataloggingservice:dev
         imagePullPolicy: Always
         ports:
         - containerPort: 80
         env:
         - name: ASPNETCORE_URLS
           value: http://*:80
+        - name: DEVICEID
+          value: epi1
+        - name: SERVICE_TYPE
+          value: MonitorBox
   selector:
     matchLabels:
-      app: webapp
+      app: e1streamdev
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: webapp
+  name: e1streamdev
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - port: 80
   selector:
-    app: webapp
+    app: e1streamdev

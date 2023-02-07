@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: e1streamv2
+  name: e2streamv
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: e1streamv2
+        app: e2streamv
     spec:
       containers:
-      - name: e1streamv2
-        image: localhost:32000/monitoringdatadataloggingservice:e1streamv2
+      - name: e2streamv
+        image: localhost:32000/monitoringdatadataloggingservice:e2streamv
         imagePullPolicy: Always
         ports:
         - containerPort: 80
@@ -20,15 +20,15 @@ spec:
           value: http://*:80
   selector:
     matchLabels:
-      app: e1streamv2
+      app: e2streamv
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: e1streamv2
+  name: e2streamv
 spec:
   type: ClusterIP
   ports:
   - port: 80
   selector:
-    app: e1streamv2
+    app: e2streamv
